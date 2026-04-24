@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: mko_catalog
+    description: >
+      One row per Makito product. Joins product details, pricing, and stock.
+      This is the primary table consumed by the Streamlit UI.
+    columns:
+      - name: product_ref
+        description: Makito product reference — primary key.
+        tests:
+          - not_null
+          - unique
+      - name: min_unit_price
+        description: Lowest unit price across all quantity tiers.
+      - name: total_stock_qty
+        description: Sum of stock across all warehouses.
+      - name: in_stock_now
+        description: True if any warehouse shows immediate availability.

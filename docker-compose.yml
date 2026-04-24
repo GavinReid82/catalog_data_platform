@@ -1,0 +1,20 @@
+services:
+  pipeline:
+    build: .
+    env_file: .env
+    volumes:
+      - ./data:/app/data          # local DuckDB file written here
+      - ./dbt_project:/app/dbt_project
+    command: python run_pipeline.py
+
+  ui:
+    build: .
+    env_file: .env
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data          # reads the same DuckDB file as pipeline
+      - ./ui:/app/ui
+    command: streamlit run ui/app.py --server.address=0.0.0.0
+    depends_on:
+      - pipeline
