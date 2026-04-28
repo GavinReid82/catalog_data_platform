@@ -170,14 +170,15 @@ The `pipeline` service runs `run_pipeline.py` first. The `ui` service starts aft
 
 ## Adding a new supplier
 
-The architecture is designed so that adding supplier XYZ requires changes in exactly four places and nowhere else:
+The architecture is designed so that adding supplier XYZ requires changes in exactly five places and nowhere else:
 
 1. `extractor/xyz.py` — implement `XyzExtractor(SupplierExtractor)` with a `run(date)` method
 2. `dbt_project/models/staging/stg_xyz_*.sql` — type-cast the raw S3 feeds
 3. `dbt_project/models/intermediate/int_xyz_*.sql` — normalise to canonical shape, add `supplier = 'xyz'`
-4. `ui/supplier_reference.py` — add an `_xyz()` case to the `build()` dispatcher
+4. `dbt_project/models/marts/*.sql` — add `UNION ALL select * from {{ ref('int_xyz_...') }}` to each of the five canonical mart CTEs
+5. `ui/supplier_reference.py` — add an `_xyz()` case to the `build()` dispatcher
 
-The canonical mart models, `run_pipeline.py`, and all UI pages require no changes.
+`run_pipeline.py` and all UI pages require no changes.
 
 ---
 
