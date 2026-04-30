@@ -143,9 +143,9 @@ template selection.
 | Dockerfile + Docker Compose | Done |
 | README for GitHub repository | Done |
 | Unit tests for extractor layer (28 tests) | Done |
-| Airflow DAG (replace run_pipeline.py) | Not started |
+| Airflow DAG (replace run_pipeline.py) | Done |
 | XDC as second supplier (validate architecture end-to-end) | Done |
-| CI/CD with GitHub Actions | Not started |
+| CI/CD with GitHub Actions | Done |
 
 ---
 

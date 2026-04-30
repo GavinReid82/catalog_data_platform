@@ -71,8 +71,10 @@ DuckDB reads S3 Parquet directly via the `httpfs` extension — no local copy of
 - **dbt-duckdb 1.8** — transformation layer
 - **DuckDB** — analytical engine, reads Parquet from S3 via httpfs
 - **Streamlit** — internal UI
+- **Apache Airflow + Astronomer Astro** — DAG orchestration (daily schedule, TaskFlow API)
 - **PyYAML** — business logic config
 - **Docker Compose** — containerised runtime
+- **GitHub Actions** — CI (pytest + dbt parse on every push)
 
 ---
 
@@ -80,7 +82,12 @@ DuckDB reads S3 Parquet directly via the `httpfs` extension — no local copy of
 
 ```
 catalog_data_platform/
-├── run_pipeline.py               # extract → dbt seed/run/test
+├── run_pipeline.py               # extract → dbt seed/run/test (manual / local)
+├── airflow/
+│   ├── dags/supply_integration.py  # TaskFlow DAG — daily schedule, seed hash skip
+│   ├── docker-compose.override.yml # mounts project root + injects .env into Astro
+│   └── requirements.txt
+├── .github/workflows/ci.yml      # pytest + dbt parse on push/PR
 ├── extractor/
 │   ├── base.py                   # SupplierConfig dataclass + SupplierExtractor ABC
 │   ├── mko.py                    # MkoExtractor (XML feeds)
@@ -163,6 +170,25 @@ Open [http://localhost:8501](http://localhost:8501).
 
 ---
 
+## Running with Airflow (Astronomer Astro)
+
+The pipeline runs daily on a schedule via an Airflow DAG. To start the Airflow environment locally:
+
+```bash
+cd airflow
+astro dev start        # boots scheduler, webserver, triggerer, and Postgres in Docker
+```
+
+The Airflow UI is available at [http://localhost:8081](http://localhost:8081). The `supply_integration` DAG runs `@daily` — trigger it manually from the UI or with:
+
+```bash
+astro dev run dags trigger supply_integration
+```
+
+The `docker-compose.override.yml` mounts the project root into all containers and injects credentials from the parent `.env` file. No image rebuild is needed when editing models or the DAG.
+
+---
+
 ## Running with Docker Compose
 
 ```bash
@@ -204,5 +230,5 @@ The architecture is designed so that adding supplier XYZ requires changes in exa
 | Shopping basket (session state, CSV export) | Done |
 | Dockerfile + Docker Compose | Done |
 | Unit tests for extractor layer (28 tests) | Done |
-| Airflow DAG | Planned |
-| CI/CD with GitHub Actions | Planned |
+| Airflow DAG (Astronomer Astro, TaskFlow API, seed hash optimisation) | Done |
+| CI/CD with GitHub Actions | Done |

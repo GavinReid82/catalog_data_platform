@@ -29,4 +29,5 @@ from variants v
 left join availability a on v.product_ref = a.product_ref
 left join hscodes      h on v.matnr = h.variant_id
 where v.matnr is not null
+-- MKO source data contains genuine duplicate (product_ref, matnr) rows
 qualify row_number() over (partition by v.product_ref, v.matnr order by 1) = 1

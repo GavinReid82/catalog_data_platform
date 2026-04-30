@@ -448,6 +448,59 @@ This session proved that the architecture designed on 27 April works in practice
 
 ---
 
+## 30 April 2026 — CI/CD, Airflow Validation, and QUALIFY Investigation
+
+**Focus:** Completing the project plan — GitHub Actions CI, confirming the Airflow DAG
+runs end-to-end, and investigating whether a Day 10 deduplication workaround could be
+removed.
+
+### GitHub Actions CI
+
+`.github/workflows/ci.yml` runs on every push and pull request to `main`. A single job
+runs `pytest tests/` (28 unit tests, no credentials needed) followed by `dbt parse`
+(validates all 34 models' SQL syntax). `dbt parse` does not connect to DuckDB or S3 but
+does require `AWS_ACCESS_KEY_ID` to be set because `profiles.yml` references it without a
+default — dummy values are passed in the workflow environment.
+
+### Airflow DAG End-to-End
+
+Triggered a manual run against the live Astro environment. All five tasks succeeded in
+~1m 35s: extract_mko (~12s), extract_xdc (~34s), dbt_seed (~4s, skipped via hash
+optimisation), dbt_run (~42s), dbt_test (~14s). The seed hash skip is working as
+intended.
+
+### QUALIFY Investigation: A Day 10 Correction
+
+Day 10 noted that the `QUALIFY ROW_NUMBER()` in `int_mko_variants.sql` "can be removed
+once date-specific reads are confirmed." Removing it caused the composite key test to
+fail with 5 duplicates. Querying the raw S3 Parquet directly confirmed the duplicates
+are in MKO's source data — not a consequence of the glob read. The QUALIFY is
+load-bearing and was restored with a comment recording the real reason.
+
+### Current Project State
+
+| Component | Status |
+|---|---|
+| AWS S3 + IAM | Done |
+| Python extractor (MKO — 5 XML feeds) | Done |
+| Python extractor (XDC — 5 XLSX feeds) | Done |
+| S3 partition retention (delete_partition, 2-day window) | Done |
+| dbt staging layer — date-specific partition reads via `run_date` var | Done |
+| dbt intermediate layer (MKO: 6 models, XDC: 6 models) | Done |
+| dbt canonical mart models (conditional Jinja unions) | Done |
+| dbt seeds (4 seeds) | Done |
+| Variants mart grain corrected to (supplier, product_ref, variant_id) | Done |
+| SupplierExtractor ABC + MkoExtractor + XdcExtractor | Done |
+| Shared UI modules (db.py, supplier_reference.py, basket.py) | Done |
+| Streamlit UI (4 pages — Home, Catalog, Configure Order, Catman) | Done |
+| Dockerfile + Docker Compose | Done |
+| README | Done |
+| Unit tests (extractor layer, 28 tests) | Done |
+| Airflow DAG (Astronomer Astro, TaskFlow API, seed hash optimisation) | Done |
+| CI/CD with GitHub Actions | Done |
+
+---
+
 ## 30 April 2026 — Airflow Orchestration, S3 Partition Strategy, and Variants Grain Fix
 
 **Focus:** Replacing the manual pipeline script with a proper Airflow DAG, fixing the
@@ -533,4 +586,4 @@ a defensive measure.
 | README | Done |
 | Unit tests (extractor layer, 28 tests) | Done |
 | Airflow DAG (Astronomer Astro, TaskFlow API, seed hash optimisation) | Done |
-| CI/CD with GitHub Actions | Not started |
+| CI/CD with GitHub Actions | Done |
