@@ -47731,3 +47731,57 @@ information.
 [0m11:20:15.947789 [debug] [MainThread]: Command `dbt parse` succeeded at 11:20:15.947732 after 1.23 seconds
 [0m11:20:15.948014 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c0d7ba0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10b7599d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10bd87e90>]}
 [0m11:20:15.948224 [debug] [MainThread]: Flushing usage events
+[0m11:23:28.777135 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107cdcad0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109abfc50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109abfed0>]}
+
+
+============================== 11:23:28.781019 | 6c7431f7-24b2-41a7-ad7b-8263832c5842 ==============================
+[0m11:23:28.781019 [info ] [MainThread]: Running with dbt=1.8.7
+[0m11:23:28.781371 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'debug': 'False', 'log_path': '/Users/gavin.reid/gavin/catalog_data_platform/dbt_project/logs', 'version_check': 'True', 'profiles_dir': '/Users/gavin.reid/gavin/catalog_data_platform/dbt_project', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'invocation_command': 'dbt parse', 'static_parser': 'True', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m11:23:28.958143 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '6c7431f7-24b2-41a7-ad7b-8263832c5842', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109c623f0>]}
+[0m11:23:28.981831 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '6c7431f7-24b2-41a7-ad7b-8263832c5842', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109be2be0>]}
+[0m11:23:28.984171 [info ] [MainThread]: Registered adapter: duckdb=1.8.4
+[0m11:23:29.034996 [debug] [MainThread]: checksum: 4af21dafb485259c48497ac86b711ddb1982f3d0f1c0ca4e09356de488b753c0, vars: {}, profile: , target: , version: 1.8.7
+[0m11:23:29.109754 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m11:23:29.110035 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m11:23:29.135872 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '6c7431f7-24b2-41a7-ad7b-8263832c5842', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x109ba5450>]}
+[0m11:23:29.138156 [info ] [MainThread]: Performance info: /Users/gavin.reid/gavin/catalog_data_platform/dbt_project/target/perf_info.json
+[0m11:23:29.190445 [debug] [MainThread]: Resource report: {"command_name": "parse", "command_success": true, "command_wall_clock_time": 0.4493412, "process_user_time": 0.945731, "process_kernel_time": 0.225196, "process_mem_max_rss": "134217728", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m11:23:29.190821 [debug] [MainThread]: Command `dbt parse` succeeded at 11:23:29.190756 after 0.45 seconds
+[0m11:23:29.191042 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1099ee990>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1099ee030>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1099c3e70>]}
+[0m11:23:29.191230 [debug] [MainThread]: Flushing usage events
+[0m11:26:35.885749 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10be48ad0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dc2bc50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dc2bed0>]}
+
+
+============================== 11:26:35.889212 | f6404109-da53-4396-9412-fdae4907f4a2 ==============================
+[0m11:26:35.889212 [info ] [MainThread]: Running with dbt=1.8.7
+[0m11:26:35.889533 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/gavin.reid/gavin/catalog_data_platform/dbt_project', 'fail_fast': 'False', 'warn_error': 'None', 'log_path': '/Users/gavin.reid/gavin/catalog_data_platform/dbt_project/logs', 'version_check': 'True', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'log_format': 'default', 'invocation_command': 'dbt parse', 'introspect': 'True', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m11:26:36.062343 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'f6404109-da53-4396-9412-fdae4907f4a2', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ddce3f0>]}
+[0m11:26:36.092331 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'f6404109-da53-4396-9412-fdae4907f4a2', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dd4abe0>]}
+[0m11:26:36.095492 [info ] [MainThread]: Registered adapter: duckdb=1.8.4
+[0m11:26:36.148231 [debug] [MainThread]: checksum: 4af21dafb485259c48497ac86b711ddb1982f3d0f1c0ca4e09356de488b753c0, vars: {}, profile: , target: , version: 1.8.7
+[0m11:26:36.223074 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m11:26:36.223351 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m11:26:36.250516 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'f6404109-da53-4396-9412-fdae4907f4a2', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10dd11450>]}
+[0m11:26:36.252522 [info ] [MainThread]: Performance info: /Users/gavin.reid/gavin/catalog_data_platform/dbt_project/target/perf_info.json
+[0m11:26:36.304822 [debug] [MainThread]: Resource report: {"command_name": "parse", "command_success": true, "command_wall_clock_time": 0.45778924, "process_user_time": 0.929609, "process_kernel_time": 0.203485, "process_mem_max_rss": "135069696", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m11:26:36.305170 [debug] [MainThread]: Command `dbt parse` succeeded at 11:26:36.305102 after 0.46 seconds
+[0m11:26:36.305387 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10db5a990>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10db5a030>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10db2be70>]}
+[0m11:26:36.305567 [debug] [MainThread]: Flushing usage events
+[0m13:21:53.473627 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10b0bcad0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ce9fc50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10ce9fed0>]}
+
+
+============================== 13:21:53.476984 | 0d4f3022-125c-4e64-950c-ed987d0662a9 ==============================
+[0m13:21:53.476984 [info ] [MainThread]: Running with dbt=1.8.7
+[0m13:21:53.477323 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'fail_fast': 'False', 'log_path': '/Users/gavin.reid/gavin/catalog_data_platform/dbt_project/logs', 'debug': 'False', 'profiles_dir': '/Users/gavin.reid/gavin/catalog_data_platform/dbt_project', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'introspect': 'True', 'invocation_command': 'dbt parse', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m13:21:53.655949 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '0d4f3022-125c-4e64-950c-ed987d0662a9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10d0423f0>]}
+[0m13:21:53.681388 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '0d4f3022-125c-4e64-950c-ed987d0662a9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cfc2be0>]}
+[0m13:21:53.683813 [info ] [MainThread]: Registered adapter: duckdb=1.8.4
+[0m13:21:53.769872 [debug] [MainThread]: checksum: 4af21dafb485259c48497ac86b711ddb1982f3d0f1c0ca4e09356de488b753c0, vars: {}, profile: , target: , version: 1.8.7
+[0m13:21:53.860030 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 0 files changed.
+[0m13:21:53.860326 [debug] [MainThread]: Partial parsing enabled, no changes found, skipping parsing
+[0m13:21:53.886758 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '0d4f3022-125c-4e64-950c-ed987d0662a9', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cf85450>]}
+[0m13:21:53.889516 [info ] [MainThread]: Performance info: /Users/gavin.reid/gavin/catalog_data_platform/dbt_project/target/perf_info.json
+[0m13:21:53.971119 [debug] [MainThread]: Resource report: {"command_name": "parse", "command_success": true, "command_wall_clock_time": 0.5354736, "process_user_time": 0.949712, "process_kernel_time": 0.222575, "process_mem_max_rss": "134283264", "process_in_blocks": "0", "process_out_blocks": "0"}
+[0m13:21:53.971535 [debug] [MainThread]: Command `dbt parse` succeeded at 13:21:53.971469 after 0.54 seconds
+[0m13:21:53.971778 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cdce990>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cdce030>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cd9fe70>]}
+[0m13:21:53.971973 [debug] [MainThread]: Flushing usage events

@@ -445,3 +445,92 @@ This session proved that the architecture designed on 27 April works in practice
 | XDC supplier reference builder | Done |
 | Airflow DAG (replace run_pipeline.py) | Not started |
 | CI/CD with GitHub Actions | Not started |
+
+---
+
+## 30 April 2026 — Airflow Orchestration, S3 Partition Strategy, and Variants Grain Fix
+
+**Focus:** Replacing the manual pipeline script with a proper Airflow DAG, fixing the
+root cause of row duplication, adding partition cleanup, and correcting a grain
+assumption in the variants mart.
+
+### Airflow with Astronomer Astro
+
+`run_pipeline.py` was a script — run it manually and it runs once. I replaced it with an
+Airflow DAG using **Astronomer Astro** as the local development environment. `astro dev init`
+created the `airflow/` project structure; `astro dev start` boots the full Airflow stack
+(scheduler, webserver, triggerer, Postgres metadata DB) in Docker. The webserver is at
+`localhost:8081`.
+
+The DAG (`airflow/dags/supply_integration.py`) uses the **TaskFlow API** (`@dag`, `@task`
+decorators) and **TaskGroups** to organise work:
+
+```
+extract.extract_mko ──┐
+                      ├──► transform.dbt_seed → transform.dbt_run → transform.dbt_test
+extract.extract_xdc ──┘
+```
+
+The two extract tasks run in parallel; both must succeed before transform begins. XDC
+extraction is handled with an early return when `XDC_BASE_URL` is absent — simpler than
+`BranchPythonOperator` because there is only one downstream path.
+
+**Seed hash optimisation:** `dbt seed` loads reference CSVs that rarely change. The
+`dbt_seed` task computes an MD5 hash of all seed CSVs, compares it to a hash stored in
+S3 at `state/seed_hash`, and skips the seed step if unchanged. This eliminates redundant
+seeding on every daily run.
+
+**docker-compose.override.yml** mounts the project root into all Airflow containers at
+`/usr/local/project` and injects credentials from the parent `.env` file. No code
+copying or image rebuilding needed during development.
+
+### S3 date-specific reads and the `run_date` variable
+
+All 11 staging models (5 MKO + 6 XDC) previously read from S3 using a wildcard partition
+(`*/`), which caused row duplication after multiple pipeline runs. This session fixes the
+root cause: staging models now read only the current run's partition:
+
+```sql
+select * from read_parquet('s3://{{ env_var("S3_BUCKET") }}/mko/raw/stock/{{ var("run_date") }}/stock.parquet')
+```
+
+`run_date` is injected by the Airflow DAG's `_dbt()` helper via `--vars '{run_date: 2026-04-30}'`.
+This is the architectural join between the Airflow DAG and the S3 partition strategy —
+Airflow owns the date; the staging models consume it.
+
+### S3 partition retention
+
+`delete_partition()` added to `extractor/loader.py`. Both extractors call
+`_delete_old_partition()` after each upload, deleting the partition from two days ago
+(keeping today + yesterday). Cleanup runs after upload so a failed extraction cannot
+delete data before the new partition is in place.
+
+### Variants mart grain correction
+
+`variant_id` alone is not a unique key in the variants mart: MKO's `matnr` is shared
+across product groups. The correct grain is `(supplier, product_ref, variant_id)`.
+The `unique` test was removed, the description updated, and the custom test rewritten
+to assert the composite key. `int_xdc_variants.sql` gained `QUALIFY` deduplication as
+a defensive measure.
+
+### Current Project State
+
+| Component | Status |
+|---|---|
+| AWS S3 + IAM | Done |
+| Python extractor (MKO — 5 XML feeds) | Done |
+| Python extractor (XDC — 5 XLSX feeds) | Done |
+| S3 partition retention (delete_partition, 2-day window) | Done |
+| dbt staging layer — date-specific partition reads via `run_date` var | Done |
+| dbt intermediate layer (MKO: 6 models, XDC: 6 models) | Done |
+| dbt canonical mart models (conditional Jinja unions) | Done |
+| dbt seeds (4 seeds) | Done |
+| Variants mart grain corrected to (supplier, product_ref, variant_id) | Done |
+| SupplierExtractor ABC + MkoExtractor + XdcExtractor | Done |
+| Shared UI modules (db.py, supplier_reference.py, basket.py) | Done |
+| Streamlit UI (4 pages — Home, Catalog, Configure Order, Catman) | Done |
+| Dockerfile + Docker Compose | Done |
+| README | Done |
+| Unit tests (extractor layer, 28 tests) | Done |
+| Airflow DAG (Astronomer Astro, TaskFlow API, seed hash optimisation) | Done |
+| CI/CD with GitHub Actions | Not started |
