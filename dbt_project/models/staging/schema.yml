@@ -1,0 +1,57 @@
+version: 2
+
+models:
+  - name: stg_vta_products
+    description: One row per product from the Vantora product manifest.
+    columns:
+      - name: product_ref
+        description: Vantora product reference — primary key.
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_vta_prices
+    description: One row per product per price tier (up to 4 tiers per product).
+    columns:
+      - name: product_ref
+        tests:
+          - not_null
+      - name: tier
+        tests:
+          - not_null
+      - name: unit_price
+        tests:
+          - not_null
+
+  - name: stg_vta_stock
+    description: One row per product per warehouse entry.
+    columns:
+      - name: product_ref
+        tests:
+          - not_null
+
+  - name: stg_vta_print_options
+    description: One row per product / technique / area combination from the Vantora print options feed.
+    columns:
+      - name: product_ref
+        tests:
+          - not_null
+      - name: teccode
+        tests:
+          - not_null
+      - name: areacode
+        tests:
+          - not_null
+
+  - name: stg_vta_print_prices
+    description: One row per print technique per quantity tier (up to 7 tiers). Global price list — not per product.
+    columns:
+      - name: teccode
+        tests:
+          - not_null
+      - name: tier
+        tests:
+          - not_null
+      - name: price_per_unit
+        tests:
+          - not_null

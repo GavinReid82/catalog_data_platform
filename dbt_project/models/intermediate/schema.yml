@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: int_vta_products
+    description: >
+      VTA products normalised to the canonical product shape.
+      Adds supplier='vta'. One row per product.
+
+  - name: int_vta_variants
+    description: >
+      VTA variants normalised to canonical shape.
+      Contract: (1) adds supplier='vta', (2) renames to canonical column names (variant_id, image_url),
+      (3) computes is_available from product-level stock (VTA has no variant-level availability).
+      attribute_json is NULL — VTA has no variant-level attributes.
+      One row per variant.
+
+  - name: int_vta_prices
+    description: >
+      VTA price tiers normalised to canonical shape.
+      Adds supplier='vta'. One row per product/tier.
+
+  - name: int_vta_stock
+    description: >
+      VTA stock levels normalised to canonical shape.
+      Adds supplier='vta'. One row per product/warehouse.
+
+  - name: int_vta_print_options
+    description: >
+      VTA print options normalised to canonical shape.
+      Adds supplier='vta'. One row per product/technique/area.
+
+  - name: int_vta_print_prices
+    description: >
+      VTA print technique prices normalised to canonical schema.
+      amount_under (exclusive upper bound) converted to (quantity_min, quantity_max) pairs.
+      product_ref, color_count, area_min_mm2, area_max_mm2 are NULL — VTA pricing is global.
+      One row per technique/position/tier.
