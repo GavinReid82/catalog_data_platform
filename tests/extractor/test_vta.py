@@ -20,6 +20,7 @@ CONFIG = SupplierConfig(
 EMPTY_DF = pd.DataFrame()
 
 
+@patch("extractor.vta.delete_partition")
 @patch("extractor.vta.upload_dataframe")
 @patch("extractor.vta.fetch_stock", return_value=EMPTY_DF)
 @patch("extractor.vta.fetch_print_price", return_value=EMPTY_DF)
@@ -27,7 +28,7 @@ EMPTY_DF = pd.DataFrame()
 @patch("extractor.vta.fetch_price", return_value=EMPTY_DF)
 @patch("extractor.vta.fetch_products", return_value=(EMPTY_DF, EMPTY_DF, EMPTY_DF))
 def test_vta_run_calls_all_fetch_functions(
-    mock_products, mock_price, mock_print, mock_print_price, mock_stock, mock_upload
+    mock_products, mock_price, mock_print, mock_print_price, mock_stock, mock_upload, mock_delete
 ):
     VtaExtractor(config=CONFIG, bucket="test-bucket").run("2024-01-15")
 
@@ -38,6 +39,7 @@ def test_vta_run_calls_all_fetch_functions(
     mock_stock.assert_called_once_with("http://example.com", "/stock")
 
 
+@patch("extractor.vta.delete_partition")
 @patch("extractor.vta.upload_dataframe")
 @patch("extractor.vta.fetch_stock", return_value=EMPTY_DF)
 @patch("extractor.vta.fetch_print_price", return_value=EMPTY_DF)
@@ -45,7 +47,7 @@ def test_vta_run_calls_all_fetch_functions(
 @patch("extractor.vta.fetch_price", return_value=EMPTY_DF)
 @patch("extractor.vta.fetch_products", return_value=(EMPTY_DF, EMPTY_DF, EMPTY_DF))
 def test_vta_run_uploads_correct_s3_keys(
-    mock_products, mock_price, mock_print, mock_print_price, mock_stock, mock_upload
+    mock_products, mock_price, mock_print, mock_print_price, mock_stock, mock_upload, mock_delete
 ):
     VtaExtractor(config=CONFIG, bucket="test-bucket").run("2024-01-15")
 
@@ -59,6 +61,7 @@ def test_vta_run_uploads_correct_s3_keys(
     assert "vta/raw/stock/2024-01-15/stock.parquet" in uploaded_keys
 
 
+@patch("extractor.vta.delete_partition")
 @patch("extractor.vta.upload_dataframe")
 @patch("extractor.vta.fetch_stock", return_value=EMPTY_DF)
 @patch("extractor.vta.fetch_print_price", return_value=EMPTY_DF)
@@ -66,7 +69,7 @@ def test_vta_run_uploads_correct_s3_keys(
 @patch("extractor.vta.fetch_price", return_value=EMPTY_DF)
 @patch("extractor.vta.fetch_products", return_value=(EMPTY_DF, EMPTY_DF, EMPTY_DF))
 def test_vta_run_uploads_to_correct_bucket(
-    mock_products, mock_price, mock_print, mock_print_price, mock_stock, mock_upload
+    mock_products, mock_price, mock_print, mock_print_price, mock_stock, mock_upload, mock_delete
 ):
     VtaExtractor(config=CONFIG, bucket="test-bucket").run("2024-01-15")
 
@@ -74,6 +77,7 @@ def test_vta_run_uploads_to_correct_bucket(
     assert all(b == "test-bucket" for b in buckets)
 
 
+@patch("extractor.vta.delete_partition")
 @patch("extractor.vta.upload_dataframe")
 @patch("extractor.vta.fetch_stock", return_value=EMPTY_DF)
 @patch("extractor.vta.fetch_print_price", return_value=EMPTY_DF)
@@ -81,7 +85,7 @@ def test_vta_run_uploads_to_correct_bucket(
 @patch("extractor.vta.fetch_price", return_value=EMPTY_DF)
 @patch("extractor.vta.fetch_products", return_value=(EMPTY_DF, EMPTY_DF, EMPTY_DF))
 def test_vta_run_total_upload_count(
-    mock_products, mock_price, mock_print, mock_print_price, mock_stock, mock_upload
+    mock_products, mock_price, mock_print, mock_print_price, mock_stock, mock_upload, mock_delete
 ):
     VtaExtractor(config=CONFIG, bucket="test-bucket").run("2024-01-15")
     assert mock_upload.call_count == 7
