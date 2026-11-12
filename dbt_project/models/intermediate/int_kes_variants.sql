@@ -22,11 +22,11 @@ availability as (
     select
         v.variant_id,
         coalesce(s.stock_qty, 0)                    as stock_qty,
-        coalesce(t.threshold, 300)                  as threshold,
+        coalesce(t.threshold_quantity, 300)                  as threshold,
         -- Available if not Outlet lifecycle, OR if stock exceeds threshold (even for Outlet)
         (
             coalesce(v.productlifecycle, '') != 'Outlet'
-            or coalesce(s.stock_qty, 0) > coalesce(t.threshold, 300)
+            or coalesce(s.stock_qty, 0) > coalesce(t.threshold_quantity, 300)
         )                                           as is_available
     from variants v
     left join stock      s on v.variant_id = s.variant_id
