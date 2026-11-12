@@ -24,6 +24,7 @@
   - Say plainly that one person (Gavin) wrote and graded the queries, and say how many.
   - Never call it "production". It is a local Docker setup.
   - Supplier names stay fictional (Vantora / Kestrel). No HelloPrint names, code or data identifiers.
+  - Tuned numbers (Task 9) are in-sample: they were tuned on the same queries they are scored on. Say so, or quote the baseline numbers for the method comparison.
 - Learning rule (Gavin): before each task, say in one plain sentence what it does and why. Before running a test, predict the result, then run it and paste the real output.
 
 ## File Map
@@ -996,7 +997,7 @@ queries:
       "vta:67890": 2
 ```
 
-- [ ] **Step 3: For each query,** run `python -m search.pool "<query>"`, paste the lines under `grades:`, change each `0` to the right grade. Delete lines you leave at 0 if you like (missing = 0).
+- [ ] **Step 3: For each query,** run `python -m search.pool "<query>"`, paste the lines under `grades:`, change each `0` to the right grade. Keep the 0 lines: they record that a product was judged wrong, which is different from never judged.
 
 - [ ] **Step 4: Check the file loads and every query has at least one relevant product**
 
@@ -1235,9 +1236,9 @@ python -m search.evaluate --label boost-flat \
   --bm25-fields "product_name,product_type,category,subcategory,keywords,brand,composition,description"
 ```
 
-- [ ] **Step 3: Write `search/eval/EXPERIMENTS.md`.** One table: label, what changed, nDCG@10 / MRR@10 / Recall@10 for the method it affects, and a one-line "kept / dropped". Copy numbers only from the JSON files. Then add a short "What I learned" with 3 bullets in plain words. Warn yourself in writing: with 40 queries, a difference under about 0.02 nDCG is probably noise.
+- [ ] **Step 3: Write `search/eval/EXPERIMENTS.md`.** One table: label, what changed, nDCG@10 / MRR@10 / Recall@10 for the method it affects, and a one-line "kept / dropped". Copy numbers only from the JSON files. Then add a short "What I learned" with 3 bullets in plain words. Warn yourself in writing: with 40 queries, a difference under about 0.02 nDCG is probably noise. Flag any variant whose judged@10 is clearly lower than the baseline's: its score is biased low by unjudged documents.
 
-- [ ] **Step 4: If a variant clearly beat the default,** update `DEFAULT_BM25_FIELDS` in `search/queries.py` and/or the default `weights` in `ensure_hybrid_pipeline`, fix `test_bm25_uses_default_boosted_fields` if needed, run `pytest tests/search -q` (expect all pass), and re-run `python -m search.evaluate --label final`.
+- [ ] **Step 4: If a variant clearly beat the default,** update `DEFAULT_BM25_FIELDS` in `search/queries.py` and/or `DEFAULT_HYBRID_WEIGHTS` in `search/index.py`, fix `test_bm25_uses_default_boosted_fields` if needed, run `pytest tests/search -q` (expect all pass), and re-run `python -m search.evaluate --label final`.
 
 - [ ] **Step 5: Commit**
 
@@ -1325,6 +1326,8 @@ Expected: `ok`.
 
 - [ ] **Step 6: Run the DAG for real.** Needs the Astro CLI (`brew install astro`).
 
+Note before the astro command: data is replayed. Add `RUN_DATE=2026-06-09` and `KES_BASE_URL=offline-replay` to `.env` first, and skip the extract tasks (mark them success) because live feeds need a supplier account code. `dbt test` has 2 known failures (null print prices in the source), so dbt_test will fail and index_search will be upstream_failed unless you run index_search on its own (clear it with 'ignore all deps'). Record honestly what ran.
+
 ```bash
 cd airflow && astro dev start
 # In the UI at http://localhost:8080 (admin / admin), trigger supply_integration.
@@ -1332,7 +1335,7 @@ cd airflow && astro dev start
 
 Expected: all tasks green, including `index_search`. Take a screenshot of the graph view for the case study and save it as `docs/img/dag_with_search.png`.
 
-**If you cannot run Astro, stop and say so.** Then the README must say the DAG task is written but was only run through `run_pipeline.py`, not through Airflow.
+**If you cannot run Astro, stop and say so.** Then the README must say the DAG task is written but was only run through `run_pipeline.py`, not through Airflow, and that `run_pipeline.index()` has not been run.
 
 - [ ] **Step 7: Commit**
 
