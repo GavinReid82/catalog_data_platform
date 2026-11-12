@@ -6,7 +6,7 @@ transforms them with dbt + DuckDB, and serves two workflows through a Streamlit
 UI: one-off order configuration, and PCM export for website catalogues.
 
 Built as a public, inspectable portfolio counterpart to a supplier-integration
-platform I built at HelloPrint. The two feed sources here — **Vantora** (XML
+platform I work with at HelloPrint. The two feed sources here — **Vantora** (XML
 feeds) and **Kestrel** (XLSX feeds) — are fictional stand-ins; the product data
 is real but carries no supplier identity.
 
