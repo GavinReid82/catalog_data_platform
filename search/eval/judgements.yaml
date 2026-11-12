@@ -1,0 +1,932 @@
+# Relevance judgements for the product-search evaluation.
+#
+# Grades: 3 = exactly what the query asks for
+#         2 = a good substitute
+#         1 = related, but a buyer would not pick it
+#         0 = wrong  (keep 0 lines: judged wrong is not the same as never judged)
+#
+# Candidates: pooled top-10 from BM25, vector and hybrid, shuffled.
+# Pre-graded by an LLM (Claude Sonnet 5.5) on 2026-11-12, then checked by Gavin Reid.
+# A query counts as human-checked only when its `checked:` is true.
+# Product names and descriptions are omitted from this public copy; ids and grades are complete.
+
+queries:
+  - id: q01
+    type: keyword
+    text: "stainless steel water bottle"
+    checked: true
+    grades:
+      "kes:P433.19": 3
+      "kes:P435.71": 3
+      "kes:P436.42": 3
+      "kes:P436.48": 3
+      "kes:P436.49": 3
+      "kes:P436.83": 3
+      "kes:P439.12": 3
+      "vta:22006": 3
+      "kes:P430.11": 2
+      "vta:1767": 3
+      "vta:21548": 3
+      "vta:22005": 3
+      "kes:P432.13": 1
+      "kes:P436.05": 1
+      "kes:P436.75": 1
+      "vta:22124": 1
+  - id: q02
+    type: keyword
+    text: "wireless charger"
+    checked: true
+    grades:
+      "kes:P302.63": 3
+      "kes:P308.14": 3
+      "kes:P308.22": 3
+      "kes:P308.37": 3
+      "kes:P308.38": 3
+      "kes:P308.47": 3
+      "kes:P308.72": 3
+      "kes:P308.74": 3
+      "vta:1206": 3
+      "vta:1209": 3
+      "vta:1970": 3
+      "vta:20250": 3
+      "vta:20264": 3
+      "vta:5324": 3
+      "kes:P300.24": 2
+      "kes:P302.56": 2
+      "kes:P308.94": 2
+      "kes:P329.12": 0
+  - id: q03
+    type: keyword
+    text: "power bank 10000mAh"
+    checked: true
+    grades:
+      "kes:P322.14": 3
+      "kes:P324.79": 3
+      "vta:20857": 3
+      "kes:RBA1695": 2
+      "vta:20858": 2
+      "kes:P322.08": 1
+      "kes:P324.19": 1
+      "vta:1362": 1
+      "vta:20251": 1
+      "vta:20266": 1
+      "vta:20856": 1
+      "vta:21023": 1
+      "vta:21195": 1
+      "vta:21259": 1
+      "vta:21331": 1
+      "vta:21977": 1
+      "vta:4939": 1
+      "vta:6892": 1
+  - id: q04
+    type: keyword
+    text: "laptop backpack"
+    checked: true
+    grades:
+      "kes:100806": 3
+      "kes:P705.02": 3
+      "kes:P705.92": 3
+      "kes:P732.06": 3
+      "kes:P760.05": 3
+      "kes:P762.10": 3
+      "kes:P762.22": 3
+      "kes:P762.46": 3
+      "kes:P762.57": 3
+      "kes:P762.60": 3
+      "kes:P762.72": 3
+      "kes:P763.08": 3
+      "vta:20199": 3
+      "vta:4591": 3
+      "vta:5155": 3
+      "vta:22082": 2
+      "kes:P732.21": 1
+  - id: q05
+    type: keyword
+    text: "cotton tote bag"
+    checked: true
+    grades:
+      "kes:P762.54": 3
+      "kes:P762.62": 3
+      "kes:P762.64": 3
+      "vta:1174": 3
+      "vta:20909": 3
+      "vta:21944": 3
+      "vta:3322": 3
+      "vta:6118": 3
+      "vta:6836": 3
+      "kes:P762.93": 2
+      "kes:P762.94": 2
+      "kes:V76202": 2
+      "vta:6387": 2
+      "vta:6727": 2
+      "kes:P439.19": 1
+      "kes:P762.66": 1
+      "kes:P763.42": 1
+      "kes:V5010": 1
+      "vta:6625": 1
+      "vta:9728": 1
+  - id: q06
+    type: keyword
+    text: "bamboo pen"
+    checked: true
+    grades:
+      "kes:P610.32": 3
+      "kes:P610.53": 3
+      "kes:P610.54": 3
+      "kes:P610.56": 3
+      "kes:P611.10": 3
+      "vta:20183": 3
+      "vta:21600": 3
+      "vta:5260": 3
+      "kes:P221.00": 1
+      "kes:P221.54": 3
+      "vta:20648": 2
+      "vta:20651": 2
+      "kes:P611.08": 1
+      "kes:P772.15": 1
+      "kes:P773.77": 1
+      "vta:21921": 1
+      "kes:P610.48": 0
+  - id: q07
+    type: keyword
+    text: "bluetooth speaker"
+    checked: true
+    grades:
+      "kes:ND440.00": 3
+      "kes:P311.13": 3
+      "kes:P328.21": 3
+      "kes:P328.34": 3
+      "kes:P328.35": 3
+      "kes:P329.26": 3
+      "kes:P329.32": 3
+      "kes:P329.34": 3
+      "kes:P329.39": 3
+      "vta:1971": 3
+      "vta:1997": 3
+      "vta:20848": 3
+      "vta:20855": 3
+      "vta:21358": 3
+      "vta:4628": 3
+      "vta:6181": 3
+      "vta:6700": 3
+      "vta:6745": 3
+      "vta:20866": 2
+      "kes:P326.43": 1
+  - id: q08
+    type: keyword
+    text: "ceramic mug"
+    checked: true
+    grades:
+      "kes:P434.00": 3
+      "kes:P434.01": 3
+      "kes:P434.03": 3
+      "kes:P434.04": 3
+      "kes:P434.05": 3
+      "kes:P434.07": 3
+      "kes:P434.08": 3
+      "kes:P434.09": 3
+      "kes:P434.11": 3
+      "kes:P437.22": 3
+      "vta:1756": 3
+      "vta:9528": 1
+  - id: q09
+    type: keyword
+    text: "foldable umbrella"
+    checked: true
+    grades:
+      "kes:ND160.00": 3
+      "kes:P850.32": 3
+      "kes:P850.33": 3
+      "kes:P850.43": 3
+      "kes:P850.46": 3
+      "kes:P850.48": 3
+      "kes:P850.57": 3
+      "kes:P850.58": 3
+      "kes:P850.59": 3
+      "kes:P850.60": 3
+      "vta:21879": 3
+      "vta:22064": 3
+      "vta:22359": 3
+      "vta:3553": 3
+      "vta:5707": 3
+      "vta:6787": 3
+      "vta:7154": 3
+      "vta:20340": 2
+      "vta:21677": 1
+  - id: q10
+    type: keyword
+    text: "cooler bag"
+    checked: true
+    grades:
+      "kes:P422.03": 3
+      "kes:P422.15": 3
+      "kes:P422.16": 3
+      "kes:P422.27": 3
+      "kes:P422.36": 3
+      "kes:P733.03": 3
+      "kes:P733.06": 3
+      "kes:P733.19": 3
+      "kes:V5009": 3
+      "kes:V5132": 3
+      "kes:V56016": 3
+      "vta:1248": 3
+      "vta:5173": 3
+      "vta:5737": 3
+      "kes:P733.07": 3
+  - id: q11
+    type: keyword
+    text: "A5 notebook"
+    checked: true
+    grades:
+      "kes:P772.15": 3
+      "kes:P773.01": 3
+      "kes:P773.02": 3
+      "kes:P773.21": 3
+      "kes:P773.24": 3
+      "kes:P773.31": 3
+      "kes:P773.42": 3
+      "kes:P773.53": 3
+      "kes:P773.77": 3
+      "kes:P773.95": 3
+      "kes:P774.24": 3
+      "kes:P774.33": 3
+      "kes:P774.43": 3
+      "kes:P774.44": 3
+      "kes:P774.53": 3
+      "kes:P773.07": 2
+  - id: q12
+    type: keyword
+    text: "baseball cap"
+    checked: true
+    grades:
+      "vta:1535": 3
+      "vta:20827": 3
+      "vta:20828": 3
+      "vta:20829": 3
+      "vta:20830": 3
+      "vta:20831": 3
+      "vta:20837": 3
+      "vta:20839": 3
+      "vta:20840": 3
+      "vta:21437": 3
+      "vta:22419": 3
+      "vta:1533": 3
+      "vta:20157": 3
+      "vta:20826": 2
+      "vta:3329": 3
+      "vta:5565": 2
+      "vta:21439": 1
+      "vta:21807": 1
+  - id: q13
+    type: keyword
+    text: "measuring tape"
+    checked: true
+    grades:
+      "kes:P113.20": 3
+      "kes:P113.21": 3
+      "kes:P113.26": 3
+      "kes:P113.40": 3
+      "kes:P113.55": 3
+      "kes:P113.65": 3
+      "kes:P115.65": 3
+      "vta:20500": 3
+      "vta:21674": 3
+      "vta:21675": 3
+      "vta:3020": 3
+      "vta:4643": 3
+      "vta:5547": 3
+      "vta:21458": 3
+      "vta:21669": 3
+  - id: q14
+    type: keyword
+    text: "LED torch"
+    checked: true
+    grades:
+      "kes:P513.27": 3
+      "kes:P513.43": 3
+      "kes:P513.46": 3
+      "kes:P513.56": 3
+      "kes:P513.57": 3
+      "vta:20488": 3
+      "vta:20491": 3
+      "vta:9735": 3
+      "kes:P513.69": 2
+      "kes:P513.82": 3
+      "kes:P518.02": 2
+      "kes:P518.04": 2
+      "kes:P239.43": 1
+      "vta:21315": 1
+      "vta:22374": 1
+  - id: q15
+    type: keyword
+    text: "beach towel"
+    checked: true
+    grades:
+      "kes:V45021": 3
+      "kes:V45022": 3
+      "kes:V45023": 3
+      "kes:V805": 3
+      "kes:V806": 3
+      "vta:21499": 3
+      "vta:5919": 3
+      "vta:1184": 3
+      "vta:1601": 3
+      "vta:20751": 3
+      "vta:20782": 3
+      "vta:21500": 2
+      "vta:4553": 3
+      "vta:7065": 2
+      "kes:P453.77": 1
+      "vta:4567": 1
+      "vta:5704": 1
+  - id: q16
+    type: descriptive
+    text: "something to keep coffee hot on the way to work"
+    checked: true
+    grades:
+      "kes:P432.69": 3
+      "kes:P432.80": 3
+      "kes:P432.92": 3
+      "kes:P437.14": 3
+      "kes:P439.14": 3
+      "vta:1046": 3
+      "vta:20257": 3
+      "kes:P432.67": 2
+      "kes:P439.13": 2
+      "kes:P432.88": 1
+      "kes:P432.89": 1
+      "vta:1200": 1
+      "vta:22245": 1
+      "vta:6533": 1
+      "vta:9528": 1
+      "kes:P329.15": 0
+      "kes:P513.10": 0
+      "kes:P513.24": 0
+      "kes:RBTK": 0
+      "vta:20941": 0
+  - id: q17
+    type: descriptive
+    text: "gift for someone who goes hiking"
+    checked: true
+    grades:
+      "kes:ND200.00": 3
+      "kes:P733.07": 3
+      "kes:P760.15": 3
+      "kes:P762.80": 3
+      "vta:21495": 3
+      "vta:21496": 3
+      "kes:ND150.01": 2
+      "kes:P763.19": 2
+      "vta:1096": 2
+      "vta:4466": 2
+      "kes:P262.97": 1
+      "kes:P820.73": 1
+      "kes:TGL1014301": 1
+      "kes:TGL1014302": 1
+      "kes:TGL1014303": 1
+      "vta:4182": 1
+      "kes:P774.66": 0
+  - id: q18
+    type: descriptive
+    text: "charge my phone without a cable"
+    checked: true
+    grades:
+      "kes:P309.50": 3
+      "vta:1206": 3
+      "vta:6520": 3
+      "kes:P301.95": 1
+      "kes:P302.07": 1
+      "kes:P302.22": 1
+      "kes:RBA81F6": 1
+      "kes:V30200": 1
+      "vta:1202": 1
+      "vta:1203": 1
+      "vta:21036": 1
+      "vta:21037": 1
+      "vta:21185": 1
+      "vta:21774": 1
+      "vta:21775": 1
+      "vta:21884": 1
+      "vta:21886": 1
+      "vta:22017": 1
+  - id: q19
+    type: descriptive
+    text: "keep drinks cold at a picnic"
+    checked: true
+    grades:
+      "vta:1490": 3
+      "vta:1568": 3
+      "vta:1800": 3
+      "kes:P433.99": 2
+      "kes:P436.46": 2
+      "kes:P436.48": 2
+      "kes:P436.49": 2
+      "kes:P436.93": 2
+      "kes:P439.10": 2
+      "kes:P439.11": 2
+      "kes:P269.63": 1
+      "kes:P439.07": 1
+      "kes:P459.07": 1
+      "kes:P459.09": 1
+      "kes:P459.12": 1
+      "kes:V459000": 1
+      "kes:V459001": 1
+      "kes:V45901": 1
+      "kes:V45902": 1
+      "kes:V45903": 1
+  - id: q20
+    type: descriptive
+    text: "protect my laptop when I travel"
+    checked: true
+    grades:
+      "kes:P788.03": 3
+      "kes:P788.10": 3
+      "vta:1855": 3
+      "vta:1856": 3
+      "vta:20922": 3
+      "kes:P705.50": 3
+      "kes:P705.64": 3
+      "kes:P760.05": 3
+      "kes:P762.00": 3
+      "kes:P762.10": 3
+      "kes:P762.51": 3
+      "kes:P762.72": 3
+      "vta:22082": 1
+      "kes:P265.87": 0
+      "kes:P302.49": 0
+      "kes:P733.06": 0
+      "kes:P786.00": 0
+      "vta:22004": 0
+      "vta:2586": 0
+      "vta:8772": 0
+  - id: q21
+    type: descriptive
+    text: "something for kids to draw with"
+    checked: true
+    grades:
+      "vta:1522": 3
+      "vta:22165": 3
+      "vta:22302": 3
+      "vta:22402": 3
+      "vta:8584": 3
+      "vta:8585": 3
+      "vta:1524": 3
+      "vta:1525": 2
+      "vta:3095": 3
+      "vta:5643": 3
+      "vta:8587": 3
+      "vta:1508": 1
+      "vta:1517": 1
+      "vta:1520": 1
+      "vta:1521": 1
+      "vta:1523": 1
+      "vta:4707": 1
+      "kes:T6100": 0
+      "kes:T6404": 0
+      "vta:4788": 0
+  - id: q22
+    type: descriptive
+    text: "stop someone stealing from my bag"
+    checked: true
+    grades:
+      "kes:P705.50": 3
+      "kes:P705.64": 3
+      "kes:P705.70": 3
+      "kes:P705.79": 3
+      "kes:P705.92": 3
+      "kes:P706.28": 3
+      "kes:P730.06": 3
+      "kes:P762.51": 3
+      "kes:P705.77": 3
+      "kes:P705.80": 3
+      "kes:P707.23": 1
+      "kes:P732.21": 1
+      "kes:P112.03": 0
+      "kes:P112.05": 0
+      "kes:P112.16": 0
+      "kes:P113.40": 0
+      "kes:P733.03": 0
+      "kes:P733.19": 0
+      "vta:20789": 0
+      "vta:5482": 0
+  - id: q23
+    type: descriptive
+    text: "listen to music on the train"
+    checked: true
+    grades:
+      "kes:P329.12": 3
+      "kes:P329.45": 3
+      "kes:P329.57": 3
+      "kes:P331.56": 3
+      "kes:P331.59": 3
+      "vta:1957": 3
+      "vta:22389": 3
+      "vta:5531": 3
+      "vta:1960": 3
+      "kes:P331.16": 1
+      "kes:P331.58": 1
+      "vta:1974": 1
+      "vta:21350": 1
+      "vta:6086": 1
+      "vta:6143": 1
+      "vta:20263": 0
+      "vta:20452": 0
+      "vta:21017": 0
+      "vta:21983": 0
+      "vta:22059": 0
+  - id: q24
+    type: descriptive
+    text: "giveaway for a wine tasting event"
+    checked: true
+    grades:
+      "kes:V26300": 3
+      "vta:1707": 3
+      "vta:20787": 3
+      "vta:22373": 3
+      "vta:6098": 3
+      "vta:6101": 3
+      "vta:6993": 3
+      "kes:P911.06": 2
+      "kes:P911.39": 3
+      "kes:P911.41": 3
+      "kes:P911.42": 3
+      "kes:P915.01": 2
+      "vta:21709": 1
+      "vta:3147": 1
+      "vta:3841": 1
+      "vta:6199": 1
+      "vta:6203": 1
+      "vta:21874": 0
+  - id: q25
+    type: descriptive
+    text: "stay dry when it rains"
+    checked: true
+    grades:
+      "kes:P850.45": 3
+      "kes:P850.62": 3
+      "kes:P850.64": 3
+      "kes:P850.65": 3
+      "kes:V8500": 3
+      "kes:V85001": 3
+      "vta:1478": 3
+      "vta:21829": 3
+      "vta:22064": 3
+      "vta:3503": 3
+      "vta:3880": 3
+      "vta:4262": 3
+      "vta:9486": 3
+      "vta:5131": 1
+      "vta:6855": 1
+      "kes:T9102": 0
+      "kes:V6002": 0
+      "vta:1011": 0
+      "vta:2050": 0
+      "vta:21500": 0
+  - id: q26
+    type: descriptive
+    text: "eco friendly office gift"
+    checked: true
+    grades:
+      "kes:P610.32": 3
+      "kes:P610.52": 3
+      "kes:P610.53": 3
+      "kes:P610.54": 3
+      "vta:20915": 3
+      "vta:20968": 3
+      "vta:21292": 3
+      "vta:3190": 3
+      "vta:6837": 3
+      "vta:2420": 3
+      "kes:P732.04": 1
+      "kes:P788.20": 1
+      "kes:V5017": 1
+      "vta:1310": 1
+      "vta:1314": 1
+      "vta:1315": 1
+      "vta:1496": 1
+      "vta:1497": 1
+      "kes:V45326": 0
+  - id: q27
+    type: descriptive
+    text: "carry my lunch to work"
+    checked: true
+    grades:
+      "kes:P269.05": 3
+      "kes:P269.59": 3
+      "kes:P269.62": 3
+      "kes:P439.00": 3
+      "kes:P439.02": 3
+      "kes:P439.03": 3
+      "vta:1124": 3
+      "vta:1482": 3
+      "vta:1738": 3
+      "vta:1739": 3
+      "vta:1741": 3
+      "vta:20612": 3
+      "vta:20613": 3
+      "vta:20614": 3
+      "kes:P436.71": 1
+      "kes:P329.15": 0
+      "kes:P513.10": 0
+      "kes:P513.24": 0
+  - id: q28
+    type: descriptive
+    text: "find my lost keys"
+    checked: true
+    grades:
+      "kes:P301.04": 3
+      "kes:P301.16": 3
+      "kes:P301.62": 3
+      "kes:P301.63": 3
+      "vta:21876": 3
+      "kes:P301.19": 2
+      "kes:P301.58": 2
+      "kes:P301.59": 1
+      "kes:P301.56": 1
+      "kes:P301.61": 1
+      "vta:1208": 1
+      "vta:21736": 1
+      "vta:22230": 1
+      "vta:22251": 1
+      "vta:4526": 1
+      "vta:5854": 0
+      "vta:5855": 0
+  - id: q29
+    type: descriptive
+    text: "something for my dog"
+    checked: true
+    grades:
+      "vta:1502": 3
+      "vta:20328": 3
+      "vta:21513": 3
+      "vta:21518": 3
+      "vta:22194": 3
+      "vta:3061": 3
+      "vta:4513": 3
+      "vta:5826": 3
+      "vta:20318": 2
+      "vta:20320": 2
+      "vta:20323": 3
+      "vta:20324": 3
+      "kes:P301.19": 0
+      "kes:P301.61": 0
+      "kes:P301.63": 0
+      "kes:RB35761": 0
+      "kes:RB35812": 0
+      "kes:V19454": 0
+  - id: q30
+    type: descriptive
+    text: "write notes in a meeting"
+    checked: true
+    grades:
+      "kes:P610.54": 3
+      "kes:P610.98": 3
+      "kes:P611.11": 3
+      "vta:1677": 3
+      "vta:1678": 3
+      "vta:1681": 3
+      "vta:1683": 3
+      "vta:20749": 3
+      "vta:21885": 3
+      "vta:22197": 3
+      "vta:22317": 3
+      "vta:3805": 3
+      "vta:4889": 3
+      "vta:5795": 3
+      "kes:P327.10": 2
+      "vta:1235": 2
+      "vta:1672": 2
+      "vta:21662": 3
+      "vta:3147": 2
+      "vta:20289": 1
+  - id: q31
+    type: messy
+    text: "watter botle"
+    checked: true
+    grades:
+      "kes:P433.19": 3
+      "kes:P435.71": 3
+      "kes:P436.42": 3
+      "kes:P436.48": 3
+      "kes:P436.49": 3
+      "kes:P436.83": 3
+      "kes:P439.12": 3
+      "vta:22006": 3
+      "kes:P430.11": 2
+      "vta:1767": 3
+      "vta:21548": 3
+      "vta:22005": 3
+      "vta:1145": 0
+      "vta:1939": 0
+      "vta:20497": 0
+      "vta:20564": 0
+      "vta:20765": 0
+      "vta:20865": 0
+      "vta:22422": 0
+      "vta:3665": 0
+      "vta:6666": 0
+      "vta:6895": 0
+  - id: q32
+    type: messy
+    text: "powerbnk"
+    checked: true
+    grades:
+      "kes:P322.49": 3
+      "kes:P322.81": 3
+      "kes:P322.82": 3
+      "vta:20283": 3
+      "vta:1285": 1
+      "vta:6797": 1
+      "vta:1140": 0
+      "vta:1493": 0
+      "vta:5199": 0
+      "vta:5201": 0
+  - id: q33
+    type: messy
+    text: "umbrela foldable"
+    checked: true
+    grades:
+      "kes:P850.70": 3
+      "kes:P432.60": 0
+      "kes:P733.19": 0
+      "kes:P940.12": 0
+      "vta:20917": 0
+      "vta:21129": 0
+      "vta:21549": 0
+      "vta:21616": 0
+      "vta:21639": 0
+      "vta:21644": 0
+      "vta:21804": 0
+      "vta:21822": 0
+      "vta:21826": 0
+      "vta:22390": 0
+      "vta:22405": 0
+      "vta:4788": 0
+      "vta:5448": 0
+      "vta:6006": 0
+      "vta:6422": 0
+      "vta:6726": 0
+  - id: q34
+    type: messy
+    text: "mugs ceramics"
+    checked: true
+    grades:
+      "kes:P434.00": 3
+      "kes:P434.01": 3
+      "kes:P434.03": 3
+      "kes:P434.04": 3
+      "kes:P434.05": 3
+      "kes:P434.07": 3
+      "kes:P434.08": 3
+      "kes:P434.09": 3
+      "kes:P434.11": 3
+      "kes:P437.22": 3
+      "vta:1756": 3
+      "vta:22160": 3
+      "vta:5685": 3
+      "vta:9459": 3
+      "vta:9528": 1
+  - id: q35
+    type: messy
+    text: "backpak laptop 15 inch"
+    checked: true
+    grades:
+      "kes:100806": 3
+      "kes:P760.05": 3
+      "kes:P762.57": 3
+      "kes:P762.72": 3
+      "kes:P762.10": 2
+      "kes:P762.22": 2
+      "kes:P762.45": 3
+      "kes:P730.02": 1
+      "kes:P732.21": 1
+      "kes:P732.22": 1
+      "kes:P732.34": 1
+      "kes:P762.09": 1
+      "kes:P788.05": 1
+      "kes:V5016": 1
+      "kes:V78810": 1
+      "vta:20922": 1
+      "kes:P763.40": 0
+  - id: q36
+    type: messy
+    text: "speakers bluetoth"
+    checked: true
+    grades:
+      "kes:ND440.00": 3
+      "kes:P311.13": 3
+      "kes:P328.21": 3
+      "kes:P328.34": 3
+      "kes:P328.35": 3
+      "kes:P329.26": 3
+      "kes:P329.32": 3
+      "kes:P329.34": 3
+      "kes:P329.39": 3
+      "vta:1971": 3
+      "vta:1997": 3
+      "vta:20848": 3
+      "vta:20855": 3
+      "vta:21358": 3
+      "vta:21359": 3
+      "vta:4628": 3
+      "vta:6181": 3
+      "vta:6745": 3
+      "vta:20866": 3
+      "kes:P326.43": 1
+  - id: q37
+    type: messy
+    text: "pens"
+    checked: true
+    grades:
+      "kes:P610.32": 3
+      "kes:P610.43": 3
+      "kes:P610.44": 3
+      "kes:P610.46": 3
+      "kes:P610.48": 3
+      "kes:P610.49": 3
+      "kes:P610.52": 3
+      "kes:P610.57": 3
+      "kes:P610.86": 3
+      "vta:1927": 3
+      "vta:3960": 3
+      "vta:4345": 3
+      "vta:5014": 3
+      "vta:5120": 3
+      "vta:5121": 3
+      "vta:5557": 3
+      "vta:6075": 3
+      "vta:6336": 3
+      "kes:P327.10": 3
+      "vta:22387": 3
+  - id: q38
+    type: messy
+    text: "charger wireles phone"
+    checked: true
+    grades:
+      "kes:P302.63": 3
+      "kes:P308.74": 3
+      "vta:1206": 3
+      "vta:1209": 3
+      "vta:20250": 3
+      "vta:21355": 3
+      "vta:5324": 3
+      "vta:6520": 3
+      "vta:6535": 3
+      "vta:6542": 3
+      "kes:P774.31": 2
+      "kes:P301.35": 1
+      "kes:P301.37": 1
+      "kes:P301.38": 1
+      "kes:P301.40": 1
+      "kes:P301.34": 0
+      "kes:P773.07": 0
+      "kes:P820.75": 0
+  - id: q39
+    type: messy
+    text: "t shirt cotton"
+    checked: true
+    grades:
+      "kes:T9100": 3
+      "kes:T9101": 3
+      "kes:T9103": 3
+      "kes:T9104": 3
+      "kes:T9105": 3
+      "kes:T9106": 3
+      "kes:T9107": 3
+      "vta:1332": 3
+      "vta:1333": 3
+      "vta:21839": 3
+      "vta:21841": 3
+      "vta:21842": 3
+      "vta:8006": 3
+      "kes:T4100": 3
+      "kes:T6100": 3
+      "kes:T9102": 1
+      "vta:21151": 1
+      "vta:21157": 1
+      "vta:5247": 1
+      "vta:6462": 1
+  - id: q40
+    type: messy
+    text: "keyring"
+    checked: true
+    grades:
+      "kes:P191.62": 3
+      "kes:P191.63": 3
+      "kes:V5020": 3
+      "vta:1025": 3
+      "vta:1026": 3
+      "vta:1377": 3
+      "vta:1379": 3
+      "vta:1396": 3
+      "vta:1411": 3
+      "vta:1896": 3
+      "vta:21005": 3
+      "vta:21056": 3
+      "vta:21057": 3
+      "vta:21343": 3
+      "vta:21740": 3
+      "vta:4131": 3
+      "vta:4443": 3
+      "vta:9642": 3
+      "vta:22243": 3
