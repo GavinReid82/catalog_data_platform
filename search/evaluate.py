@@ -21,7 +21,15 @@ RESULTS_DIR = Path("search/eval/results")
 
 
 def load_judgements(path: str) -> list[dict]:
-    return yaml.safe_load(Path(path).read_text())["queries"]
+    data = yaml.safe_load(Path(path).read_text()) or {}
+    queries = data.get("queries") if isinstance(data, dict) else None
+    if not queries:
+        raise ValueError(f"{path} has no queries")
+    ids = [q["id"] for q in queries]
+    dupes = sorted({i for i in ids if ids.count(i) > 1})
+    if dupes:
+        raise ValueError(f"{path} has duplicate query ids: {', '.join(map(str, dupes))}")
+    return queries
 
 
 def _average(rows: list[dict]) -> dict:
@@ -45,13 +53,13 @@ def evaluate(search_fn, judgements: list[dict], methods=METHODS, k: int = 10) ->
     return results
 
 
-def to_markdown(results: dict) -> str:
-    lines = ["| method | nDCG@10 | MRR@10 | Recall@10 |", "|---|---|---|---|"]
+def to_markdown(results: dict, k: int = 10) -> str:
+    lines = [f"| method | nDCG@{k} | MRR@{k} | Recall@{k} |", "|---|---|---|---|"]
     for method, r in results.items():
         o = r["overall"]
         lines.append(f"| {method} | {o['ndcg']:.3f} | {o['mrr']:.3f} | {o['recall']:.3f} |")
     types = next(iter(results.values()))["by_type"]
-    lines += ["", "nDCG@10 by query type:", "",
+    lines += ["", f"nDCG@{k} by query type:", "",
               "| method | " + " | ".join(types) + " |", "|---" * (len(types) + 1) + "|"]
     for method, r in results.items():
         lines.append(f"| {method} | " + " | ".join(f"{r['by_type'][t]['ndcg']:.3f}" for t in types) + " |")
@@ -60,7 +68,9 @@ def to_markdown(results: dict) -> str:
 
 def main() -> None:
     from search.embed import Embedder
-    from search.index import PIPELINE_NAME, ensure_hybrid_pipeline, get_client
+    from search.embed import MODEL_NAME
+    from search.index import INDEX_NAME, PIPELINE_NAME, ensure_hybrid_pipeline, get_client
+    from search.queries import DEFAULT_BM25_FIELDS
 
     p = argparse.ArgumentParser()
     p.add_argument("--label", required=True)
@@ -70,6 +80,7 @@ def main() -> None:
     p.add_argument("--k", type=int, default=10)
     args = p.parse_args()
 
+    judgements = load_judgements(args.judgements)
     client, embedder = get_client(), Embedder()
     fields = args.bm25_fields.split(",") if args.bm25_fields else None
     weights = tuple(float(w) for w in args.hybrid_weights.split(","))
@@ -80,15 +91,17 @@ def main() -> None:
         return run_search(client, embedder, method, text, size=args.k,
                           fields=fields, pipeline=pipeline)
 
-    judgements = load_judgements(args.judgements)
     results = evaluate(search_fn, judgements, k=args.k)
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    out = RESULTS_DIR / f"{date.today().isoformat()}-{args.label}.json"
+    today = date.today().isoformat()
+    out = RESULTS_DIR / f"{today}-{args.label}.json"
     out.write_text(json.dumps({
-        "label": args.label, "date": date.today().isoformat(), "k": args.k,
-        "n_queries": len(judgements), "bm25_fields": fields, "hybrid_weights": weights,
+        "label": args.label, "date": today, "k": args.k,
+        "n_queries": len(judgements), "judgements": args.judgements,
+        "index": INDEX_NAME, "pipeline": pipeline, "embedding_model": MODEL_NAME,
+        "bm25_fields": fields or DEFAULT_BM25_FIELDS, "hybrid_weights": weights,
         "results": results}, indent=2))
-    print(to_markdown(results))
+    print(to_markdown(results, args.k))
     print(f"\nSaved {out}")
 
 
