@@ -121,6 +121,62 @@ catalog_data_platform/
 
 ---
 
+## Search
+
+The `search/` package adds product search on top of the dbt `catalog` mart. It loads all 5,861 products (4,479 Vantora, 1,382 Kestrel) into a single-node OpenSearch 2.17.1 and searches them three ways:
+
+- **BM25**: keyword match over the name, type, category, keywords, brand, material and description, with boosts on the name and category fields.
+- **Vector**: kNN over `all-MiniLM-L6-v2` sentence embeddings (384 dimensions, cosine, HNSW).
+- **Hybrid**: both, combined by an OpenSearch search pipeline that min-max normalises each score list and takes a weighted mean.
+
+Indexing is the last task of the Airflow DAG (`index_search`, after `dbt_test`) and the last step of `run_pipeline.py`.
+
+### Results
+
+Scored on 40 queries in three kinds: 15 that use product words, 15 that describe a need ("something to keep coffee hot"), and 10 with typos or odd word order. Numbers are from `search/eval/results/2026-11-12-baseline.json`.
+
+| method | nDCG@10 | MRR@10 | Recall@10 | descriptive | keyword | messy |
+|---|---|---|---|---|---|---|
+| BM25 | 0.685 | 0.841 | 0.496 | 0.557 | 0.882 | 0.580 |
+| Vector | **0.841** | **0.956** | **0.598** | **0.811** | 0.915 | **0.772** |
+| Hybrid (0.5 / 0.5) | 0.815 | 0.942 | 0.572 | 0.732 | **0.946** | 0.744 |
+
+The last three columns are nDCG@10 by query type. In short:
+
+- Vector search won overall.
+- BM25 failed on descriptive and misspelt queries. It returned no results at all for "watter botle" and "powerbnk".
+- Hybrid won only on keyword queries.
+- I tried hybrid weightings from 0.2 / 0.8 to 0.8 / 0.2. None beat vector alone: the best, 0.2 / 0.8, scored 0.824. See `search/eval/EXPERIMENTS.md` for every run.
+
+### Method
+
+- **Pooling.** For each query, the top 10 from all three methods were merged and shuffled. That gave 719 judgements on a 0–3 scale.
+- **Grading.** The judgements were pre-graded by an LLM (Claude Sonnet). I then checked every query and changed 50 of the grades.
+- **nDCG uses linear gain.**
+- **judged@10** reports the share of each top 10 that was ever graded, because ungraded products count as wrong. In the baseline it is 1.0 for vector and hybrid. For BM25 it is 0.95, only because of the two queries where BM25 returned nothing.
+- **"watter botle".** No method returned a water bottle, so the bottles judged for q01 were copied in as its relevant set.
+
+### Limits
+
+- **Small query set.** There are only 40 queries, so I treat differences under about 0.02 nDCG as noise.
+- **The tuning numbers are in-sample.** They were tuned and scored on the same queries.
+- **Grading.** It was one human check of LLM pre-grades, not independent graders.
+- **Local only.** This is a local, single-node Docker setup, not production.
+- **Replayed data.** The catalogue was rebuilt from supplier data saved in S3 for 2026-06-09, because the live feeds need an account code I no longer have. `dbt test` passes 27 of 29 tests. The two failures are two print prices that are blank in the supplier's own data.
+- **Indexing was run directly.** I ran `search.pipeline.run_indexing`. The `index_search` DAG task has not been run in Airflow, and neither has `run_pipeline.index()`.
+
+### Run it
+
+```bash
+docker compose up -d opensearch
+pip install -r requirements.txt -r requirements-embed.txt
+python -c "from search.embed import Embedder; from search.index import get_client; from search.pipeline import run_indexing; print(run_indexing('data/catalog_data_platform.duckdb', get_client(), Embedder()))"
+python -m search.pool "water bottle"          # pooled candidates, ready to grade
+python -m search.evaluate --label baseline    # scores every judged query
+```
+
+---
+
 ## Running locally
 
 **1. Set up credentials**
@@ -236,3 +292,5 @@ The architecture is designed so that adding supplier XYZ requires changes in exa
 | Unit tests for extractor layer (28 tests) | Done |
 | Airflow DAG (Astronomer Astro, TaskFlow API, seed hash optimisation) | Done |
 | CI/CD with GitHub Actions | Done |
+| OpenSearch search: BM25, vector, hybrid + evaluation (80 unit tests) | Done |
+| `index_search` DAG task | Written, not yet run in Airflow |
