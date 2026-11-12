@@ -156,7 +156,7 @@ def supply_integration():
 
 
 def _dbt(command: str) -> None:
-    run_date = date.today().isoformat()
+    run_date = os.getenv("RUN_DATE") or date.today().isoformat()
     result = subprocess.run(
         ["dbt", command, "--project-dir", DBT_DIR, "--profiles-dir", DBT_DIR,
          "--vars", f"{{run_date: {run_date}}}"],

@@ -65,9 +65,11 @@ def extract():
 
 def transform():
     logger.info("=== TRANSFORM ===")
+    run_date = os.getenv("RUN_DATE") or date.today().isoformat()
     for cmd in ["seed", "run", "test"]:
         subprocess.run(
-            [DBT, cmd, "--project-dir", "dbt_project", "--profiles-dir", "dbt_project"],
+            [DBT, cmd, "--project-dir", "dbt_project", "--profiles-dir", "dbt_project",
+             "--vars", f"{{run_date: {run_date}}}"],
             check=True,
         )
         logger.info(f"dbt {cmd} complete.")
