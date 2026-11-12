@@ -10,6 +10,7 @@ select
     printcode,
     keywords,
     composition,
+    extendedinfo                                as description,
 
     -- dimensions (cast from varchar)
     try_cast(item_long      as decimal(10, 2))  as item_length_mm,

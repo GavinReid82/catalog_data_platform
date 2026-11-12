@@ -23,6 +23,8 @@ select
     category,
     subcategory,
     image_url,
+    description,
+    cast(null as varchar) as keywords,
     material     as composition,
     1            as min_order_qty,
     length_mm    as item_length_mm,

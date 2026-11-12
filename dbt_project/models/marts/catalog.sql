@@ -5,13 +5,13 @@
 with products as (
     select supplier, product_ref, product_name, product_type, brand, category, subcategory,
            min_order_qty, item_length_mm, item_width_mm, item_height_mm, item_weight_kg,
-           composition, image_url
+           composition, image_url, description, keywords
     from {{ ref('int_vta_products') }}
     {% if env_var('KES_BASE_URL', '') != '' %}
     union all
     select supplier, product_ref, product_name, product_type, brand, category, subcategory,
            min_order_qty, item_length_mm, item_width_mm, item_height_mm, item_weight_kg,
-           composition, image_url
+           composition, image_url, description, keywords
     from {{ ref('int_kes_products') }}
     {% endif %}
 ),
@@ -73,6 +73,8 @@ select
     p.item_weight_kg,
     p.composition,
     p.image_url,
+    p.description,
+    p.keywords,
 
     pr.min_unit_price,
     pr.max_unit_price,

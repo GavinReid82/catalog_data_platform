@@ -9,3 +9,6 @@ debug_manifest.py
 dbt_project/logs/
 .DS_Store
 *.duckdb
+
+# readable judgements with product names (kept local, not public)
+search/eval/*.local.yaml

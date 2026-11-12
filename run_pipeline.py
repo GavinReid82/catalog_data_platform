@@ -65,14 +65,27 @@ def extract():
 
 def transform():
     logger.info("=== TRANSFORM ===")
+    run_date = os.getenv("RUN_DATE") or date.today().isoformat()
     for cmd in ["seed", "run", "test"]:
         subprocess.run(
-            [DBT, cmd, "--project-dir", "dbt_project", "--profiles-dir", "dbt_project"],
+            [DBT, cmd, "--project-dir", "dbt_project", "--profiles-dir", "dbt_project",
+             "--vars", f"{{run_date: {run_date}}}"],
             check=True,
         )
         logger.info(f"dbt {cmd} complete.")
 
 
+def index():
+    logger.info("=== INDEX ===")
+    from search.embed import Embedder
+    from search.index import get_client
+    from search.pipeline import run_indexing
+
+    db_path = os.getenv("DUCKDB_PATH", "data/catalog_data_platform.duckdb")
+    logger.info(f"Indexed {run_indexing(db_path, get_client(), Embedder())} products.")
+
+
 if __name__ == "__main__":
     extract()
     transform()
+    index()

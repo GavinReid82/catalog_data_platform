@@ -9,6 +9,8 @@ Task graph:
     transform (group)
         dbt_seed ──> dbt_run ──> dbt_test
         (dbt_seed is skipped when seed CSVs are unchanged)
+            │
+    index_search  (DuckDB catalog → OpenSearch)
 """
 import hashlib
 import logging
@@ -140,11 +142,21 @@ def supply_integration():
 
         dbt_seed() >> dbt_run() >> dbt_test()
 
-    extract_group >> transform_group
+    @task
+    def index_search():
+        sys.path.insert(0, PROJECT_ROOT)
+        from search.embed import Embedder
+        from search.index import get_client
+        from search.pipeline import run_indexing
+
+        count = run_indexing(os.environ["DUCKDB_PATH"], get_client(), Embedder())
+        log.info("Indexed %d products into OpenSearch.", count)
+
+    extract_group >> transform_group >> index_search()
 
 
 def _dbt(command: str) -> None:
-    run_date = date.today().isoformat()
+    run_date = os.getenv("RUN_DATE") or date.today().isoformat()
     result = subprocess.run(
         ["dbt", command, "--project-dir", DBT_DIR, "--profiles-dir", DBT_DIR,
          "--vars", f"{{run_date: {run_date}}}"],

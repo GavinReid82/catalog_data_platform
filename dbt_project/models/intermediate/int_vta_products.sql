@@ -6,6 +6,7 @@ select
     brand,
     printcode,
     keywords,
+    description,
     composition,
     min_order_qty,
     item_length_mm,
