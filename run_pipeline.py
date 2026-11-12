@@ -73,6 +73,17 @@ def transform():
         logger.info(f"dbt {cmd} complete.")
 
 
+def index():
+    logger.info("=== INDEX ===")
+    from search.embed import Embedder
+    from search.index import get_client
+    from search.pipeline import run_indexing
+
+    db_path = os.getenv("DUCKDB_PATH", "data/catalog_data_platform.duckdb")
+    logger.info(f"Indexed {run_indexing(db_path, get_client(), Embedder())} products.")
+
+
 if __name__ == "__main__":
     extract()
     transform()
+    index()
