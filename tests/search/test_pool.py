@@ -25,3 +25,12 @@ def test_render_skips_missing_docs():
     out = render("q", ["a", "b"], docs)
     assert out[0] == "# q  (2 candidates)"
     assert len(out) == 2 and '"b"' in out[1]
+
+
+def test_main_without_query_prints_usage_and_exits_2(capsys):
+    import pytest
+    from search.pool import cli
+    with pytest.raises(SystemExit) as e:
+        cli([])
+    assert e.value.code == 2
+    assert "usage" in capsys.readouterr().err.lower()

@@ -36,5 +36,12 @@ def main(text: str) -> None:
     print("\n".join(render(text, ids, docs)))
 
 
+def cli(argv: list[str]) -> None:
+    if not argv:
+        print('usage: python -m search.pool "<query text>"', file=sys.stderr)
+        raise SystemExit(2)
+    main(" ".join(argv))
+
+
 if __name__ == "__main__":
-    main(" ".join(sys.argv[1:]))
+    cli(sys.argv[1:])

@@ -7,6 +7,7 @@ from search.documents import TEXT_FIELDS
 
 INDEX_NAME = "products"
 PIPELINE_NAME = "hybrid-minmax"
+DEFAULT_HYBRID_WEIGHTS = (0.5, 0.5)  # (BM25, kNN)
 ANALYZER = "english"  # Task 0 may change this to "spanish"
 
 
@@ -54,7 +55,7 @@ def bulk_index(client: OpenSearch, name: str, docs: list[dict], vectors: list[li
 
 
 def ensure_hybrid_pipeline(client: OpenSearch, name: str = PIPELINE_NAME,
-                           weights: tuple[float, float] = (0.5, 0.5)) -> None:
+                           weights: tuple[float, float] = DEFAULT_HYBRID_WEIGHTS) -> None:
     """Min-max scale BM25 and kNN scores to 0–1, then take a weighted mean (BM25, kNN)."""
     body = {
         "description": "Hybrid BM25 + kNN",
