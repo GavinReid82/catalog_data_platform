@@ -133,7 +133,7 @@ Indexing is the last task of the Airflow DAG (`index_search`, after `dbt_test`) 
 
 ### Results
 
-Scored on 40 queries in three kinds: 15 that use product words, 15 that describe a need ("something to keep coffee hot"), and 10 with typos or odd word order. Numbers are from `search/eval/results/2026-11-12-baseline.json`.
+Scored on 40 queries in three kinds: 15 that use product words, 15 that describe a need ("something to keep coffee hot"), and 10 with typos or odd word order. The table shows the first index build, the one the judgements were pooled from (`search/eval/results/2026-11-12-baseline.json`).
 
 | method | nDCG@10 | MRR@10 | Recall@10 | descriptive | keyword | messy |
 |---|---|---|---|---|---|---|
@@ -143,10 +143,25 @@ Scored on 40 queries in three kinds: 15 that use product words, 15 that describe
 
 The last three columns are nDCG@10 by query type. In short:
 
-- Vector search won overall.
+- Vector search scored highest on that build.
 - BM25 failed on descriptive and misspelt queries. It returned no results at all for "watter botle" and "powerbnk".
 - Hybrid won only on keyword queries.
-- I tried hybrid weightings from 0.2 / 0.8 to 0.8 / 0.2. None beat vector alone: the best, 0.2 / 0.8, scored 0.824. See `search/eval/EXPERIMENTS.md` for every run.
+- On that build, I tried hybrid weightings from 0.2 / 0.8 to 0.8 / 0.2. None beat vector alone: the best, 0.2 / 0.8, scored 0.824. See `search/eval/EXPERIMENTS.md` for every run.
+
+**The scores move when the index is rebuilt.** I rebuilt the index five more times with identical data and embeddings (`search/eval/results/2026-11-12-rebuild-*.json`). Across all six builds:
+
+| method | nDCG@10, lowest | nDCG@10, highest |
+|---|---|---|
+| BM25 | 0.685 | 0.685 |
+| Vector | 0.777 | 0.841 |
+| Hybrid | 0.767 | 0.815 |
+
+- BM25 did not move.
+- Vector and hybrid beat BM25 in every build.
+- Vector beat hybrid in five of the six. In the sixth they were level (0.777 against 0.778).
+- Two causes:
+  - Vector search here is approximate (HNSW), so each build returns slightly different neighbours.
+  - Each rebuild brings up some products that were never graded. Between 5% and 10% of vector's top 10 were ungraded, and ungraded products count as wrong. So the rebuild scores are biased low, and the first build's scores are the most favourable.
 
 ### Method
 
@@ -159,6 +174,7 @@ The last three columns are nDCG@10 by query type. In short:
 ### Limits
 
 - **Small query set.** There are only 40 queries, so I treat differences under about 0.02 nDCG as noise.
+- **Unstable across rebuilds.** Vector and hybrid scores vary by up to 0.06 nDCG from one index build to the next (see above). Quote ranges, not the single best number.
 - **The tuning numbers are in-sample.** They were tuned and scored on the same queries.
 - **Grading.** It was one human check of LLM pre-grades, not independent graders.
 - **Local only.** This is a local, single-node Docker setup, not production.
