@@ -28,4 +28,5 @@ jobs:
           AWS_ACCESS_KEY_ID: dummy
           AWS_SECRET_ACCESS_KEY: dummy
           AWS_DEFAULT_REGION: eu-south-2
+          S3_BUCKET: dummy-bucket
         run: dbt parse --project-dir dbt_project --profiles-dir dbt_project
